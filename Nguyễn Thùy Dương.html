@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nguyễn Thùy Dương — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#0A0808;
+  --black2:#110D0D;
+  --black3:#1A1212;
+  --red:#8B1A1A;
+  --red-bright:#C0392B;
+  --red-glow:#6B1010;
+  --cream:#F0EAE0;
+  --cream-dim:#C8BDB0;
+  --gray-light:#5A5050;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--cream);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--red);}
+
+/* EDIT MODE */
+.edit-bar{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;}
+.edit-toggle{display:flex;align-items:center;gap:0.6rem;padding:0.7rem 1.2rem;background:var(--red);color:var(--cream);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:500;transition:background 0.2s;box-shadow:0 4px 20px rgba(139,26,26,0.4);}
+.edit-toggle:hover{background:var(--red-bright);}
+.edit-hint{font-size:0.65rem;letter-spacing:0.1em;color:rgba(240,234,224,0.4);text-align:right;display:none;}
+body.edit-mode .edit-hint{display:block;}
+body.edit-mode [contenteditable=true]{outline:1px dashed rgba(192,57,43,0.5);cursor:text;transition:outline 0.15s;}
+body.edit-mode [contenteditable=true]:hover{outline:1px solid var(--red-bright);background:rgba(139,26,26,0.06);}
+body.edit-mode [contenteditable=true]:focus{outline:1px solid var(--red-bright);background:rgba(139,26,26,0.1);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;width:100%;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3.5rem;background:rgba(10,8,8,0.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(139,26,26,0.22);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;color:var(--cream);font-size:1.3rem;letter-spacing:0.18em;}
+.nav-links{display:flex;gap:2.2rem;list-style:none;}
+.nav-links a{color:rgba(240,234,224,0.4);text-decoration:none;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--cream);}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--red-bright);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1.1fr 0.9fr;padding-top:70px;position:relative;overflow:hidden;}
+.hero-bg-text{position:absolute;bottom:-2rem;left:-1rem;font-family:'Bebas Neue',sans-serif;font-size:clamp(8rem,18vw,20rem);color:rgba(139,26,26,0.065);line-height:1;pointer-events:none;white-space:nowrap;user-select:none;letter-spacing:0.04em;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:5rem 3rem 5rem 5rem;position:relative;z-index:2;}
+.hero-eyebrow{display:flex;align-items:center;gap:0.8rem;font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--red-bright);margin-bottom:2rem;font-weight:500;}
+.hero-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--red-bright);}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(3.2rem,5.5vw,6.5rem);font-weight:900;line-height:0.95;color:var(--cream);}
+.hero-name .line2{font-style:italic;color:var(--red-bright);display:block;padding-left:2rem;margin-top:0.2rem;}
+.hero-title{color:var(--gray-light);font-size:0.82rem;letter-spacing:0.2em;text-transform:uppercase;margin:1.8rem 0 2.5rem;font-weight:300;}
+.hero-bio{color:rgba(240,234,224,0.48);font-size:0.9rem;line-height:1.9;max-width:400px;margin-bottom:3rem;border-left:1px solid var(--red-glow);padding-left:1.2rem;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:0.6rem;padding:0.85rem 2rem;background:var(--red);color:var(--cream);text-decoration:none;font-size:0.75rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:500;transition:background 0.25s;}
+.btn-primary:hover{background:var(--red-bright);}
+.btn-ghost{display:inline-flex;align-items:center;gap:0.6rem;padding:0.85rem 2rem;border:1px solid rgba(240,234,224,0.18);color:rgba(240,234,224,0.55);text-decoration:none;font-size:0.75rem;letter-spacing:0.16em;text-transform:uppercase;transition:all 0.25s;}
+.btn-ghost:hover{border-color:var(--red-bright);color:var(--cream);}
+
+/* HERO PHOTO */
+.hero-right{display:flex;flex-direction:column;position:relative;z-index:2;overflow:hidden;}
+.hero-photo-wrap{flex:1;position:relative;background:var(--black3);min-height:500px;}
+.hero-photo-wrap img{width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(15%);display:block;}
+.hero-photo-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,8,8,0.65) 0%,transparent 55%),linear-gradient(to top,rgba(10,8,8,0.8) 0%,transparent 40%);}
+.hero-upload-zone{width:100%;height:100%;min-height:500px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;cursor:pointer;position:relative;}
+.hero-upload-zone:hover{background:rgba(139,26,26,0.07);}
+.hero-upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.u-icon{width:60px;height:60px;border-radius:50%;border:1px solid rgba(240,234,224,0.18);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:rgba(240,234,224,0.25);transition:all 0.2s;}
+.hero-upload-zone:hover .u-icon{border-color:var(--red-bright);color:var(--red-bright);}
+.u-label{font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(240,234,224,0.22);}
+.hero-stats-bar{display:flex;border-top:1px solid rgba(139,26,26,0.18);background:rgba(10,8,8,0.7);backdrop-filter:blur(8px);}
+.stat-item{flex:1;padding:1.1rem 1.4rem;border-right:1px solid rgba(139,26,26,0.18);}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--red-bright);display:block;letter-spacing:0.06em;}
+.stat-lbl{font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(240,234,224,0.28);margin-top:0.1rem;display:block;}
+
+/* MARQUEE */
+.marquee-bar{border-top:1px solid rgba(139,26,26,0.28);border-bottom:1px solid rgba(139,26,26,0.28);overflow:hidden;padding:0.65rem 0;background:var(--black2);}
+.marquee-track{display:flex;white-space:nowrap;animation:marquee 26s linear infinite;}
+.marquee-track span{font-size:0.67rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(240,234,224,0.28);padding:0 2rem;}
+.marquee-track span.red{color:var(--red-bright);}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SECTION */
+.section{padding:7rem 5rem;}
+.s-label{display:flex;align-items:center;gap:0.8rem;font-size:0.66rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--red-bright);margin-bottom:1.2rem;font-weight:500;}
+.s-label::after{content:'';flex:0 0 32px;height:1px;background:var(--red-bright);}
+.s-heading{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4.5vw,4.5rem);font-weight:900;line-height:1;color:var(--cream);margin-bottom:4rem;}
+.s-heading em{font-style:italic;color:var(--red-bright);}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
+.about-text p{color:rgba(240,234,224,0.52);font-size:0.93rem;line-height:1.95;margin-bottom:1.4rem;}
+.about-quote{border-left:2px solid var(--red-bright);padding-left:1.4rem;margin:2.5rem 0;}
+.about-quote p{font-family:'Playfair Display',serif;font-style:italic;font-size:1.12rem;color:var(--cream);line-height:1.65;}
+.skills-block{display:flex;flex-direction:column;gap:2rem;}
+.skill-group h4{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.9rem;font-weight:500;}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.5rem;}
+.skill-tag{padding:0.45rem 1rem;border:1px solid rgba(240,234,224,0.12);color:var(--cream-dim);font-size:0.75rem;letter-spacing:0.08em;transition:border-color 0.2s,color 0.2s;}
+.skill-tag:hover{border-color:rgba(192,57,43,0.5);color:var(--cream);}
+.skill-tag.highlight{border-color:rgba(139,26,26,0.5);color:var(--red-bright);}
+.cert-row{display:flex;flex-wrap:wrap;gap:0.7rem;margin-top:2rem;}
+.cert{padding:0.42rem 1rem;border:1px solid rgba(139,26,26,0.48);color:var(--red-bright);font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;}
+
+/* PHOTO SLOT */
+.photo-slot{position:relative;overflow:hidden;cursor:pointer;background:var(--black3);}
+.photo-slot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;filter:grayscale(10%);}
+.photo-slot:hover img{transform:scale(1.04);}
+.photo-slot-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,8,0.6) 0%,transparent 55%);pointer-events:none;}
+.photo-upload-btn{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.55rem;cursor:pointer;transition:background 0.2s;}
+.photo-upload-btn:hover{background:rgba(139,26,26,0.1);}
+.photo-upload-btn input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.pu-icon{font-size:1.4rem;color:rgba(240,234,224,0.18);}
+.pu-label{font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(240,234,224,0.18);text-align:center;padding:0 1rem;}
+
+/* EXP SHARED */
+.exp-period-tag{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.8rem;display:block;}
+.exp-content-pad{padding:5rem 4rem;display:flex;flex-direction:column;justify-content:center;}
+.exp-h2{font-family:'Playfair Display',serif;font-size:2.3rem;font-weight:700;color:var(--cream);line-height:1.1;margin-bottom:0.9rem;}
+.exp-org{font-style:italic;color:var(--gray-light);font-size:0.83rem;margin-bottom:1.8rem;display:block;}
+.exp-p{color:rgba(240,234,224,0.48);font-size:0.87rem;line-height:1.85;margin-bottom:0.9rem;}
+.kpi-row{display:flex;gap:2rem;margin-top:1.8rem;}
+.kpi-num{font-family:'Bebas Neue',sans-serif;font-size:2.3rem;color:var(--red-bright);letter-spacing:0.06em;display:block;}
+.kpi-lbl{font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,234,224,0.28);}
+
+/* HR BLOCK */
+.exp-hr{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:580px;}
+.exp-hr-left{background:var(--black3);border-right:1px solid rgba(139,26,26,0.18);}
+.exp-hr-photos{display:grid;grid-template-rows:1fr 1fr;background:var(--black);}
+.exp-hr-photos .photo-slot{min-height:220px;border-bottom:1px solid rgba(139,26,26,0.12);}
+.exp-hr-photos .photo-slot:last-child{border-bottom:none;}
+
+/* HR PROJECTS GRID */
+.hr-events-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(139,26,26,0.18);margin-top:4rem;}
+.hr-ev-item{background:var(--black2);padding:2rem 2.5rem;}
+.hr-ev-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:rgba(139,26,26,0.2);line-height:1;margin-bottom:0.4rem;display:block;}
+.hr-ev-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--cream);margin-bottom:0.6rem;line-height:1.2;}
+.hr-ev-desc{color:rgba(240,234,224,0.42);font-size:0.82rem;line-height:1.8;margin-bottom:0.9rem;}
+.hr-ev-tags{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.hr-ev-tag{padding:0.25rem 0.65rem;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid rgba(240,234,224,0.1);color:rgba(240,234,224,0.32);}
+.hr-ev-tag.hl{border-color:rgba(139,26,26,0.45);color:var(--red-bright);}
+.hr-photos-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(139,26,26,0.18);margin-top:1px;}
+.hr-photos-row .photo-slot{min-height:160px;}
+.hr-photos-row2{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(139,26,26,0.18);margin-top:1px;}
+.hr-photos-row2 .photo-slot{min-height:160px;}
+
+/* TnS PROJECT */
+.proj-ts{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:700px;margin-bottom:2px;}
+.proj-ts-imgs{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:1px;background:rgba(139,26,26,0.18);}
+.proj-ts-imgs .slot-main{grid-column:1/-1;min-height:280px;}
+.proj-ts-imgs .slot-sm{min-height:200px;}
+.proj-content-box{padding:4.5rem 4rem;display:flex;flex-direction:column;justify-content:center;background:var(--black3);}
+.proj-num{font-family:'Bebas Neue',sans-serif;font-size:5.5rem;color:rgba(139,26,26,0.13);line-height:1;margin-bottom:0.8rem;letter-spacing:0.06em;display:block;}
+.proj-role{font-size:0.65rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.8rem;font-weight:500;}
+.proj-h3{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:700;color:var(--cream);line-height:1.1;margin-bottom:1.4rem;}
+.proj-p{color:rgba(240,234,224,0.48);font-size:0.86rem;line-height:1.85;margin-bottom:0.9rem;}
+.tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.2rem;}
+.tag{padding:0.3rem 0.75rem;font-size:0.63rem;letter-spacing:0.12em;text-transform:uppercase;border:1px solid rgba(240,234,224,0.12);color:rgba(240,234,224,0.38);}
+
+/* STATS PROOF */
+.stats-proof{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(139,26,26,0.2);margin-top:1.8rem;}
+.proof-item{padding:1rem 1.2rem;background:var(--black3);text-align:center;}
+.proof-num{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--red-bright);display:block;}
+.proof-lbl{font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,234,224,0.28);}
+
+/* TIMELINE TRUYỀN THÔNG */
+.tt-section{padding:0;background:var(--black2);}
+.tt-inner{padding:5rem 4rem;}
+.tt-period-tag{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.8rem;display:block;}
+.phase-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(139,26,26,0.18);margin:2.5rem 0;}
+.phase-col{background:var(--black3);padding:1.8rem;}
+.phase-label{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;font-weight:500;margin-bottom:0.35rem;display:block;}
+.phase-dates{font-size:0.75rem;color:rgba(240,234,224,0.32);margin-bottom:1.2rem;display:block;}
+.phase-item{font-size:0.82rem;color:rgba(240,234,224,0.52);padding:0.45rem 0;border-bottom:1px solid rgba(240,234,224,0.055);display:flex;align-items:flex-start;gap:0.5rem;}
+.phase-item::before{content:'—';color:var(--red-glow);flex-shrink:0;}
+.phase-item:last-of-type{border-bottom:none;}
+.phase-kpi{font-size:0.7rem;color:var(--red-bright);margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(139,26,26,0.25);}
+.tt-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(139,26,26,0.18);margin-bottom:2.5rem;}
+.tt-kpi{background:var(--black3);padding:1.2rem 1.4rem;}
+.tt-kpi-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--red-bright);letter-spacing:0.06em;display:block;}
+.tt-kpi-lbl{font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,234,224,0.28);}
+
+/* GANTT */
+.gantt-wrap{margin-top:2rem;}
+.g-sec-lbl{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--red-bright);margin:1.2rem 0 0.6rem;padding-bottom:0.4rem;border-bottom:1px solid rgba(139,26,26,0.2);}
+.g-row{display:grid;grid-template-columns:150px 1fr;align-items:center;margin-bottom:4px;gap:0;}
+.g-lbl{font-size:0.75rem;color:rgba(240,234,224,0.55);padding-right:10px;line-height:1.3;}
+.g-lbl-sub{font-size:0.63rem;color:rgba(240,234,224,0.25);margin-top:1px;}
+.g-track{position:relative;height:18px;background:rgba(240,234,224,0.04);border-radius:2px;}
+.g-bar{position:absolute;top:2px;height:14px;border-radius:2px;display:flex;align-items:center;padding:0 5px;font-size:0.58rem;font-weight:500;white-space:nowrap;overflow:hidden;}
+.g-evline{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:var(--red-bright);z-index:2;}
+.g-evlbl{position:absolute;top:-14px;font-size:0.55rem;color:var(--red-bright);font-weight:500;transform:translateX(-50%);white-space:nowrap;}
+.g-axis{display:grid;grid-template-columns:150px 1fr;margin-bottom:6px;}
+.g-marks{position:relative;height:16px;}
+.g-mark{position:absolute;font-size:0.6rem;color:rgba(240,234,224,0.22);transform:translateX(-50%);}
+.g-mark.ev{color:var(--red-bright);font-weight:500;}
+.g-legend{display:flex;gap:1.5rem;margin-bottom:1.2rem;flex-wrap:wrap;}
+.g-leg{display:flex;align-items:center;gap:0.5rem;font-size:0.65rem;color:rgba(240,234,224,0.38);}
+.g-leg-d{width:10px;height:6px;border-radius:1px;flex-shrink:0;}
+
+/* MORE PHOTOS inside TnS */
+.ts-extra-photos{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(139,26,26,0.18);margin-top:1px;}
+.ts-extra-photos .photo-slot{min-height:150px;}
+
+/* BRAND */
+.brand-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:0;min-height:660px;}
+.brand-content{border-right:1px solid rgba(139,26,26,0.15);}
+.brand-org{font-style:italic;color:var(--red-bright);font-size:0.83rem;margin-bottom:1.8rem;display:block;}
+.result-box{margin-top:1.8rem;padding:1.2rem 1.4rem;background:rgba(139,26,26,0.1);border-left:2px solid var(--red-bright);}
+.result-box h5{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.5rem;}
+.result-box p{color:rgba(240,234,224,0.62);font-size:0.83rem;line-height:1.65;margin:0;}
+.brand-photos-col{display:grid;grid-template-rows:1.3fr 0.7fr;}
+.brand-photo-top{position:relative;overflow:hidden;background:var(--black3);cursor:pointer;min-height:300px;}
+.brand-photo-top img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;filter:grayscale(10%);}
+.brand-photo-top:hover img{transform:scale(1.04);}
+.brand-photos-row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(139,26,26,0.12);}
+.brand-photos-row .photo-slot{min-height:180px;border-right:1px solid rgba(139,26,26,0.12);}
+.brand-photos-row .photo-slot:last-child{border-right:none;}
+
+/* SHOOTING */
+.proj-shooting{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:680px;}
+.shooting-media{display:grid;grid-template-rows:1.5fr 1fr;gap:1px;background:rgba(139,26,26,0.15);}
+.video-slot{position:relative;overflow:hidden;background:var(--black2);cursor:pointer;min-height:280px;}
+.video-slot video{width:100%;height:100%;object-fit:cover;display:block;}
+.video-upload-ui{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.8rem;transition:background 0.2s;}
+.video-upload-ui:hover{background:rgba(139,26,26,0.1);}
+.video-upload-ui input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.video-icon{font-size:1.8rem;color:rgba(240,234,224,0.18);}
+.shooting-photo-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;}
+.shooting-photo-row .photo-slot{min-height:180px;}
+
+/* CONTACT */
+.contact-section{background:var(--black2);padding:7rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.contact-left h2{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,5rem);font-weight:900;color:var(--cream);line-height:1;margin-bottom:1.5rem;}
+.contact-left h2 em{font-style:italic;color:var(--red-bright);}
+.contact-left p{color:rgba(240,234,224,0.38);font-size:0.9rem;line-height:1.85;}
+.contact-right{display:flex;flex-direction:column;gap:0.9rem;}
+.contact-item{display:flex;align-items:center;gap:1.2rem;padding:1.1rem 1.4rem;border:1px solid rgba(240,234,224,0.055);text-decoration:none;transition:all 0.2s;}
+.contact-item:hover{border-color:rgba(139,26,26,0.48);background:rgba(139,26,26,0.055);}
+.ci-icon{font-size:1.1rem;width:32px;text-align:center;color:var(--cream-dim);}
+.ci-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red-bright);display:block;margin-bottom:0.2rem;}
+.ci-val{color:var(--cream);font-size:0.88rem;}
+
+/* FOOTER */
+footer{background:var(--black);border-top:1px solid rgba(139,26,26,0.18);padding:1.3rem 5rem;display:flex;align-items:center;justify-content:space-between;}
+footer p{color:rgba(240,234,224,0.18);font-size:0.67rem;letter-spacing:0.1em;}
+.footer-logo{font-family:'Bebas Neue',sans-serif;color:rgba(139,26,26,0.45);font-size:1rem;letter-spacing:0.15em;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{gap:1.2rem;}
+  .section{padding:4rem 1.5rem;}
+  .hero{grid-template-columns:1fr;}
+  .hero-left{padding:4rem 1.5rem 2rem;}
+  .about-grid,.exp-hr,.brand-grid,.proj-ts,.proj-shooting,.contact-section{grid-template-columns:1fr;}
+  .proj-ts-imgs{grid-template-columns:1fr;}
+  .proj-ts-imgs .slot-main{grid-column:1;}
+  .hr-events-grid{grid-template-columns:1fr;}
+  .phase-row{grid-template-columns:1fr;}
+  .tt-kpi-row{grid-template-columns:1fr 1fr;}
+  .stats-proof{grid-template-columns:1fr 1fr;}
+  footer{flex-direction:column;gap:0.4rem;text-align:center;padding:1rem;}
+  .edit-bar{bottom:1rem;right:1rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- EDIT BAR -->
+<div class="edit-bar">
+  <span class="edit-hint">✏️ Click vào bất kỳ đoạn text nào để chỉnh sửa</span>
+  <button class="edit-toggle" onclick="toggleEdit()">
+    <span id="editIcon">✏️</span>
+    <span id="editLabel">Chỉnh sửa text</span>
+  </button>
+  <button class="edit-toggle" style="background:var(--black3);border:1px solid rgba(139,26,26,0.5);" onclick="exportFile()" id="exportBtn">
+    <span>💾</span>
+    <span id="exportLabel">Xuất file có ảnh</span>
+  </button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Thuy Duong</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#exp">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-dot"></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Portfolio · 2026</div>
+    <h1 class="hero-name">
+      Nguyễn<br>
+      <span class="line2">Thùy Dương</span>
+    </h1>
+    <p class="hero-title" contenteditable="false">International Trade &nbsp;·&nbsp; Event Marketing &nbsp;·&nbsp; Communications</p>
+    <p class="hero-bio" contenteditable="false">Sinh viên Thương mại Quốc tế với đam mê marketing, truyền thông và tổ chức sự kiện. Từ ý tưởng đến vận hành — mình làm thật, không chỉ nói.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">Xem dự án →</a>
+      <a href="#contact" class="btn-ghost">Liên hệ</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-wrap" id="heroPhotoWrap">
+      <div class="hero-upload-zone">
+        <input type="file" accept="image/*" onchange="loadHeroPhoto(this)">
+        <div class="u-icon">📷</div>
+        <span class="u-label">Ảnh đại diện của bạn</span>
+      </div>
+    </div>
+    <div class="hero-stats-bar">
+      </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span class="red">✦</span><span>International Trade</span>
+    <span class="red">✦</span><span>Event Planning</span>
+    <span class="red">✦</span><span>Communications</span>
+    <span class="red">✦</span><span>Content Planning</span>
+    <span class="red">✦</span><span>Project Management</span>
+    <span class="red">✦</span><span>Human Resources</span>
+    <span class="red">✦</span><span>International Trade</span>
+    <span class="red">✦</span><span>Event Planning</span>
+    <span class="red">✦</span><span>Communications</span>
+    <span class="red">✦</span><span>Content Planning</span>
+    <span class="red">✦</span><span>Project Management</span>
+    <span class="red">✦</span><span>Human Resources</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="section" style="background:var(--black2);" id="about">
+  <div class="s-label">01 — About Me</div>
+  <h2 class="s-heading">Xin chào,<br>mình là <em>Thùy Dương</em></h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p contenteditable="false">Mình là sinh viên năm 3 ngành Thương mại Quốc tế tại Đại học Tài chính – Marketing (UFM), với định hướng phát triển trong lĩnh vực Marketing — đặc biệt là truyền thông thương hiệu và tổ chức sự kiện.</p>
+      <div class="about-quote">
+        <p contenteditable="false">"Marketing không đơn thuần là truyền thông — đó là cách một thương hiệu chạm đến con người đúng lúc, đúng cách."</p>
+      </div>
+      <p contenteditable="false">Qua 2+ năm tham gia điều hành câu lạc bộ và làm việc cùng thương hiệu quốc tế, mình đã tích lũy kinh nghiệm thực tế trong lập kế hoạch, quản lý truyền thông và triển khai sự kiện từ A đến Z.</p>
+      <p contenteditable="false">Mình đang tìm kiếm cơ hội thực tập tại môi trường năng động, nơi mình có thể tiếp tục học hỏi, đóng góp và phát triển chuyên môn.</p>
+      <div class="cert-row">
+        <span class="cert">IELTS</span>
+        <span class="cert">Google Digital Garage</span>
+      </div>
+    </div>
+    <div class="skills-block">
+      <div class="skill-group">
+        <h4>Event & Project Management</h4>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">Event Planning & Execution</span>
+          <span class="skill-tag highlight">Timeline Management</span>
+          <span class="skill-tag">Stakeholder Coordination</span>
+          <span class="skill-tag">Checklist & Costlist</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Marketing & Communications</h4>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">Content Planning</span>
+          <span class="skill-tag highlight">Social Media Marketing</span>
+          <span class="skill-tag">Community Management</span>
+          <span class="skill-tag">Internal Communications</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Tools</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">Canva</span>
+          <span class="skill-tag">CapCut</span>
+          <span class="skill-tag">Google Workspace</span>
+          <span class="skill-tag">Microsoft Office</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Soft Skills</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">Problem-Solving</span>
+          <span class="skill-tag">Team Collaboration</span>
+          <span class="skill-tag">Planning & Organizing</span>
+          <span class="skill-tag">Communication</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXP: HR TEAM -->
+<section id="exp" style="padding:0;">
+  <div class="exp-hr">
+    <div class="exp-hr-left exp-content-pad">
+      <span class="exp-period-tag">Dec 2023 – Mar 2026</span>
+      <h2 class="exp-h2">Human Resources<br>Team Leader</h2>
+      <span class="exp-org">Talk &amp; Share · Đại học Tài chính – Marketing</span>
+      <p class="exp-p" contenteditable="false">Tham gia team HR trong 2+ năm — đồng hành lên kế hoạch và triển khai hơn 10 sự kiện nội bộ và đối ngoại, từ các buổi training, team building đến gala kỷ niệm 10 năm thành lập CLB.</p>
+      <p class="exp-p" contenteditable="false">Phụ trách lên plan, costlist, checklist vận hành, timeline truyền thông nội bộ, phối hợp sản xuất bài truyền thông và xây dựng idea xuyên suốt chương trình cho các sự kiện.</p>
+      <div class="kpi-row">
+        <div class="kpi"><span class="kpi-num" contenteditable="false">10+</span><span class="kpi-lbl">Sự kiện</span></div>
+        <div class="kpi"><span class="kpi-num" contenteditable="false">20K+</span><span class="kpi-lbl">Followers</span></div>
+        <div class="kpi"><span class="kpi-num" contenteditable="false">100</span><span class="kpi-lbl">Người / Event</span></div>
+      </div>
+    </div>
+    <div class="exp-hr-photos">
+      <div class="photo-slot" id="hrP1">
+        <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrP1')"><span class="pu-icon">📸</span><span class="pu-label">Ảnh hoạt động HR</span></div>
+      </div>
+      <div class="photo-slot" id="hrP2">
+        <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrP2')"><span class="pu-icon">📸</span><span class="pu-label">Ảnh sự kiện / Team</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HR PROJECTS GRID -->
+<section style="padding:0;background:var(--black);">
+  <div style="padding:5rem 5rem 0;">
+    <div class="s-label"> — HR Projects</div>
+    <h2 class="s-heading">Các dự án<br><em>cùng team HR</em></h2>
+  </div>
+  <div class="hr-events-grid">
+    <div class="hr-ev-item">
+      <span class="hr-ev-num">01</span>
+      <div class="hr-ev-title">Tuyển thành viên mới</div>
+      <p class="hr-ev-desc" contenteditable="false">Lên plan tuyển dụng theo từng đợt, checklist phỏng vấn, timeline đăng bài kêu gọi ứng viên nội bộ, phối hợp content và tổng hợp kết quả sau từng vòng.</p>
+      <div class="hr-ev-tags">
+        <span class="hr-ev-tag hl">Plan tuyển dụng</span>
+        <span class="hr-ev-tag hl">Checklist PV</span>
+        <span class="hr-ev-tag">Content kêu gọi</span>
+        <span class="hr-ev-tag">Timeline nội bộ</span>
+      </div>
+    </div>
+    <div class="hr-ev-item">
+      <span class="hr-ev-num">02</span>
+      <div class="hr-ev-title">Ngày 19/11 — Quốc tế Nam giới</div>
+      <p class="hr-ev-desc" contenteditable="false">Costlist, checklist vật phẩm, idea concept quà tặng & hoạt động, bài đăng fanpage chào mừng, phối hợp vận hành ngày sự kiện.</p>
+      <div class="hr-ev-tags">
+        <span class="hr-ev-tag hl">Costlist</span>
+        <span class="hr-ev-tag hl">Concept quà</span>
+        <span class="hr-ev-tag">Bài đăng fanpage</span>
+        <span class="hr-ev-tag">Vận hành</span>
+      </div>
+    </div>
+    <div class="hr-ev-item">
+      <span class="hr-ev-num">03</span>
+      <div class="hr-ev-title">Ngày 8/3 — Quốc tế Phụ nữ</div>
+      <p class="hr-ev-desc" contenteditable="false">Idea xuyên suốt, plan hoạt động nội bộ, checklist chuẩn bị, bài truyền thông chào mừng, phân công chăm sóc thành viên nữ trong CLB.</p>
+      <div class="hr-ev-tags">
+        <span class="hr-ev-tag hl">Idea concept</span>
+        <span class="hr-ev-tag hl">Plan nội bộ</span>
+        <span class="hr-ev-tag">Truyền thông</span>
+        <span class="hr-ev-tag">Checklist</span>
+      </div>
+    </div>
+    <div class="hr-ev-item">
+      <span class="hr-ev-num">04</span>
+      <div class="hr-ev-title">Sinh nhật CLB hàng năm</div>
+      <p class="hr-ev-desc" contenteditable="false">Phối hợp lên plan toàn sự kiện, costlist, checklist vận hành, idea concept chủ đề, timeline truyền thông nội bộ và bài đăng fanpage.</p>
+      <div class="hr-ev-tags">
+        <span class="hr-ev-tag hl">Event plan</span>
+        <span class="hr-ev-tag hl">Costlist</span>
+        <span class="hr-ev-tag">Timeline TT</span>
+        <span class="hr-ev-tag">Idea chủ đề</span>
+      </div>
+    </div>
+    <div class="hr-ev-item">
+      <span class="hr-ev-num">05</span>
+      <div class="hr-ev-title">Tốt nghiệp anh chị cựu</div>
+      <p class="hr-ev-desc" contenteditable="false">Lên plan hoạt động chúc mừng, checklist quà và thiệp, bài đăng vinh danh trên fanpage, phối hợp tổng hợp danh sách và liên lạc anh chị cựu thành viên.</p>
+      <div class="hr-ev-tags">
+        <span class="hr-ev-tag hl">Plan chúc mừng</span>
+        <span class="hr-ev-tag">Quà & thiệp</span>
+        <span class="hr-ev-tag">Bài vinh danh</span>
+        <span class="hr-ev-tag">Danh sách alumni</span>
+      </div>
+    </div>
+    <div class="hr-ev-item">
+      <span class="hr-ev-num">06</span>
+      <div class="hr-ev-title">Các buổi training nội bộ</div>
+      <p class="hr-ev-desc" contenteditable="false">Lên plan nội dung từng buổi, checklist chuẩn bị tài liệu & không gian, timeline thông báo nội bộ, theo dõi điểm danh và tổng hợp phản hồi sau training.</p>
+      <div class="hr-ev-tags">
+        <span class="hr-ev-tag hl">Plan nội dung</span>
+        <span class="hr-ev-tag hl">Checklist</span>
+        <span class="hr-ev-tag">Thông báo nội bộ</span>
+        <span class="hr-ev-tag">Điểm danh</span>
+      </div>
+    </div>
+    <div class="hr-ev-item">
+      <span class="hr-ev-num">07</span>
+      <div class="hr-ev-title">Team Building</div>
+      <p class="hr-ev-desc" contenteditable="false">Idea concept hoạt động, plan game & đội nhóm, costlist vật phẩm, checklist chuẩn bị, bài truyền thông kêu gọi tham gia và tạo không khí nội bộ.</p>
+      <div class="hr-ev-tags">
+        <span class="hr-ev-tag hl">Idea game</span>
+        <span class="hr-ev-tag hl">Costlist</span>
+        <span class="hr-ev-tag">Content nội bộ</span>
+        <span class="hr-ev-tag">Plan đội nhóm</span>
+      </div>
+    </div>
+    <div class="hr-ev-item">
+      <span class="hr-ev-num">08</span>
+      <div class="hr-ev-title">Họp định kỳ</div>
+      <p class="hr-ev-desc" contenteditable="false">Checklist agenda từng buổi, tổng hợp biên bản, theo dõi action items, thông báo lịch và nhắc nhở thành viên, lưu trữ và chia sẻ tài liệu sau họp.</p>
+      <div class="hr-ev-tags">
+        <span class="hr-ev-tag hl">Agenda</span>
+        <span class="hr-ev-tag hl">Biên bản</span>
+        <span class="hr-ev-tag">Action items</span>
+        <span class="hr-ev-tag">Nhắc lịch</span>
+      </div>
+    </div>
+  </div>
+  <!-- 10 photo slots HR -->
+  <div class="hr-photos-row">
+    <div class="photo-slot" id="hrEv1"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrEv1')"><span class="pu-icon">📸</span><span class="pu-label">Tuyển thành viên</span></div></div>
+    <div class="photo-slot" id="hrEv2"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrEv2')"><span class="pu-icon">📸</span><span class="pu-label">Ngày 19/11</span></div></div>
+    <div class="photo-slot" id="hrEv3"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrEv3')"><span class="pu-icon">📸</span><span class="pu-label">Ngày 8/3</span></div></div>
+    <div class="photo-slot" id="hrEv4"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrEv4')"><span class="pu-icon">📸</span><span class="pu-label">Sinh nhật CLB</span></div></div>
+    <div class="photo-slot" id="hrEv5"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrEv5')"><span class="pu-icon">📸</span><span class="pu-label">Tốt nghiệp cựu TV</span></div></div>
+  </div>
+  <div class="hr-photos-row2">
+    <div class="photo-slot" id="hrEv6"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrEv6')"><span class="pu-icon">📸</span><span class="pu-label">Training nội bộ</span></div></div>
+    <div class="photo-slot" id="hrEv7"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrEv7')"><span class="pu-icon">📸</span><span class="pu-label">Team Building</span></div></div>
+    <div class="photo-slot" id="hrEv8"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrEv8')"><span class="pu-icon">📸</span><span class="pu-label">Họp định kỳ</span></div></div>
+    <div class="photo-slot" id="hrEv9"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrEv9')"><span class="pu-icon">📸</span><span class="pu-label">Ảnh HR 9</span></div></div>
+    <div class="photo-slot" id="hrEv10"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'hrEv10')"><span class="pu-icon">📸</span><span class="pu-label">Ảnh HR 10</span></div></div>
+  </div>
+</section>
+
+<!-- PROJECTS: TALK & SHARE -->
+<section class="section" style="background:var(--black2);padding-bottom:0;" id="projects">
+  <div class="s-label">03 — Projects</div>
+  <h2 class="s-heading">Dự án <em>nổi bật</em></h2>
+</section>
+
+<section style="padding:0;background:var(--black2);">
+  <div class="proj-ts">
+    <div class="proj-ts-imgs">
+      <div class="photo-slot slot-main" id="tsP1">
+        <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'tsP1')"><span class="pu-icon">📸</span><span class="pu-label">Toàn cảnh sự kiện</span></div>
+      </div>
+      <div class="photo-slot slot-sm" id="tsP2">
+        <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'tsP2')"><span class="pu-icon">📸</span><span class="pu-label">Văn nghệ khai mạc</span></div>
+      </div>
+      <div class="photo-slot slot-sm" id="tsP3">
+        <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'tsP3')"><span class="pu-icon">📸</span><span class="pu-label">Talkshow / Tri ân</span></div>
+      </div>
+    </div>
+    <div class="proj-content-box">
+      <span class="proj-num">01</span>
+      <span class="proj-role">Operation Leader · Event Marketing</span>
+      <h3 class="proj-h3">Talk &amp; Share<br>10 Year — Premiere</h3>
+      <p class="proj-p" contenteditable="false">Sự kiện kỷ niệm 10 năm thành lập CLB Talk &amp; Share UFM. Đảm nhận vai trò vận hành tổng — điều phối 37 nhân sự run team, quản lý toàn bộ SOW từ decor, kỹ thuật, khách mời đến media và teabreak.</p>
+      <p class="proj-p" contenteditable="false">Sự kiện quy mô 94 người tham dự, 15 hạng mục chương trình, kết hợp 4 chủ đề "Cut to…" xuyên suốt — diễn ra trong 3 tiếng liên tục tại 116 Nguyễn Thị Minh Khai, Q.3.</p>
+      <div class="stats-proof">
+        <div class="proof-item"><span class="proof-num" contenteditable="false">94</span><span class="proof-lbl">Người tham dự</span></div>
+        <div class="proof-item"><span class="proof-num" contenteditable="false">76%</span><span class="proof-lbl">Tỉ lệ confirm</span></div>
+        <div class="proof-item"><span class="proof-num" contenteditable="false">37</span><span class="proof-lbl">Nhân sự run</span></div>
+        <div class="proof-item"><span class="proof-num" contenteditable="false">50+</span><span class="proof-lbl">Checklist items</span></div>
+      </div>
+      <div class="tags" style="margin-top:1.5rem;">
+        <span class="tag">Event Operation</span>
+        <span class="tag">Team Coordination</span>
+        <span class="tag">Timeline Management</span>
+        <span class="tag">Media Plan</span>
+        <span class="tag">Checklist</span>
+      </div>
+    </div>
+  </div>
+  <!-- 4 thêm ảnh TnS -->
+  <div class="ts-extra-photos">
+    <div class="photo-slot" id="tsP4"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'tsP4')"><span class="pu-icon">📸</span><span class="pu-label">Teabreak & networking</span></div></div>
+    <div class="photo-slot" id="tsP5"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'tsP5')"><span class="pu-icon">📸</span><span class="pu-label">Cắt bánh sinh nhật</span></div></div>
+    <div class="photo-slot" id="tsP6"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'tsP6')"><span class="pu-icon">📸</span><span class="pu-label">Minigame lucky ticket</span></div></div>
+    <div class="photo-slot" id="tsP7"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'tsP7')"><span class="pu-icon">📸</span><span class="pu-label">Ảnh tập thể</span></div></div>
+  </div>
+</section>
+
+<!-- TIMELINE TRUYỀN THÔNG -->
+<section class="tt-section" style="background:var(--black);">
+  <div class="tt-inner">
+    <div class="s-label"> — Truyền thông</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,3.2rem);font-weight:900;color:var(--cream);margin-bottom:2.5rem;line-height:1;">Timeline <em style="font-style:italic;color:var(--red-bright);">truyền thông</em></h2>
+
+    <div class="tt-kpi-row">
+      <div class="tt-kpi"><span class="tt-kpi-num">~8 tuần</span><span class="tt-kpi-lbl">Thời gian triển khai · 19/07 → 26/09</span></div>
+      <div class="tt-kpi"><span class="tt-kpi-num">3</span><span class="tt-kpi-lbl">Nền tảng · Facebook · TikTok · Spread Out</span></div>
+      <div class="tt-kpi"><span class="tt-kpi-num">4+</span><span class="tt-kpi-lbl">Bài đăng tối thiểu trên fanpage</span></div>
+      <div class="tt-kpi"><span class="tt-kpi-num">50</span><span class="tt-kpi-lbl">KPI lượt share sau sự kiện</span></div>
+    </div>
+
+    <div class="phase-row">
+      <div class="phase-col">
+        <span class="phase-label" style="color:#C0392B;">Pre-event</span>
+        <span class="phase-dates">19/07 → 19/09/2025</span>
+        <div class="phase-item" contenteditable="false">Thay frame avatar đồng loạt thành viên CLB</div>
+        <div class="phase-item" contenteditable="false">Coming soon — teaser ra mắt sự kiện</div>
+        <div class="phase-item" contenteditable="false">Post chính thông tin chương trình</div>
+        <div class="phase-item" contenteditable="false">Video cựu thành viên chia sẻ cảm nghĩ (group)</div>
+        <div class="phase-item" contenteditable="false">Gửi thiệp mời vật lý + mail mời khách</div>
+        <div class="phase-item" contenteditable="false">Post hành trình 10 năm đúng ngày sự kiện</div>
+        <div class="phase-kpi">KPI: ≥70% thành viên thay avt · ≥10 video cựu TV đăng trong group</div>
+      </div>
+      <div class="phase-col">
+        <span class="phase-label" style="color:#1D9E75;">Event day · 20/09</span>
+        <span class="phase-dates">20/09/2025</span>
+        <div class="phase-item" contenteditable="false">Post hành trình 10 năm chạy trên fanpage</div>
+        <div class="phase-item" contenteditable="false">Story live check-in và backdrop</div>
+        <div class="phase-item" contenteditable="false">Quay BTS, story media hậu trường</div>
+        <div class="phase-item" contenteditable="false">Chụp ảnh toàn bộ chương trình theo plan</div>
+        <div class="phase-kpi">KPI: >85 người tham dự · 100% khách nhận quà tri ân</div>
+      </div>
+      <div class="phase-col">
+        <span class="phase-label" style="color:#D85A30;">Post-event</span>
+        <span class="phase-dates">21/09 → 26/09/2025</span>
+        <div class="phase-item" contenteditable="false">Bài recap fanpage trong 3 ngày sau sự kiện</div>
+        <div class="phase-item" contenteditable="false">UGC — anh chị cựu & thành viên share cảm nhận</div>
+        <div class="phase-item" contenteditable="false">Behind-the-scene bài viết hậu kỳ</div>
+        <div class="phase-item" contenteditable="false">Gửi mail cảm ơn toàn bộ khách mời</div>
+        <div class="phase-item" contenteditable="false">Booth check-in sinh viên tại sảnh trường</div>
+        <div class="phase-kpi">KPI: 1.500 reach · 100 tương tác · 50 share · 80 SV ghé booth</div>
+      </div>
+    </div>
+
+    <!-- Gantt -->
+    <div class="g-legend">
+      <div class="g-leg"><div class="g-leg-d" style="background:#EE1D52;"></div>TikTok</div>
+      <div class="g-leg"><div class="g-leg-d" style="background:#534AB7;"></div>Fanpage Facebook</div>
+      <div class="g-leg"><div class="g-leg-d" style="background:#1D9E75;"></div>Spread Out / Nội bộ</div>
+      <div class="g-leg"><div class="g-leg-d" style="background:#888780;"></div>Mail / Offline</div>
+      <div class="g-leg"><div class="g-leg-d" style="background:#C0392B;"></div>Ngày sự kiện 20/09</div>
+    </div>
+    <div class="gantt-wrap">
+      <div class="g-axis">
+        <div></div>
+        <div class="g-marks">
+          <span class="g-mark" style="left:0%">19/7</span>
+          <span class="g-mark" style="left:20%">2/8</span>
+          <span class="g-mark" style="left:40%">16/8</span>
+          <span class="g-mark" style="left:60%">1/9</span>
+          <span class="g-mark" style="left:80%">15/9</span>
+          <span class="g-mark ev" style="left:90%">20/9</span>
+          <span class="g-mark" style="left:99%">26/9</span>
+        </div>
+      </div>
+      <div class="g-sec-lbl">Fanpage Facebook</div>
+      <div class="g-row"><div class="g-lbl">Thay frame avatar<div class="g-lbl-sub">đồng loạt thành viên</div></div><div class="g-track"><div class="g-bar" style="left:60%;width:30%;background:rgba(83,74,183,0.7);color:#CECBF6;">≥70% thành viên</div><div class="g-evline" style="left:90%;"><div class="g-evlbl">20/9</div></div></div></div>
+      <div class="g-row"><div class="g-lbl">Coming soon<div class="g-lbl-sub">teaser sự kiện</div></div><div class="g-track"><div class="g-bar" style="left:0%;width:24%;background:rgba(83,74,183,0.85);color:#CECBF6;">Coming soon</div><div class="g-evline" style="left:90%;"></div></div></div>
+      <div class="g-row"><div class="g-lbl">Post chính<div class="g-lbl-sub">thông tin chương trình</div></div><div class="g-track"><div class="g-bar" style="left:24%;width:22%;background:rgba(83,74,183,0.85);color:#CECBF6;">Post chính</div><div class="g-evline" style="left:90%;"></div></div></div>
+      <div class="g-row"><div class="g-lbl">Post hành trình 10 năm</div><div class="g-track"><div class="g-bar" style="left:84%;width:6%;background:rgba(60,52,137,0.9);color:#CECBF6;">🎂</div><div class="g-evline" style="left:90%;"></div></div></div>
+      <div class="g-row"><div class="g-lbl">Recap + UGC<div class="g-lbl-sub">sau sự kiện</div></div><div class="g-track"><div class="g-bar" style="left:91%;width:9%;background:rgba(38,33,92,0.9);color:#AFA9EC;">Recap & UGC</div><div class="g-evline" style="left:90%;"></div></div></div>
+      <div class="g-sec-lbl" style="color:#EE1D52;">TikTok</div>
+      <div class="g-row"><div class="g-lbl">Chuỗi video<div class="g-lbl-sub">"TnS là gì với bạn?"</div></div><div class="g-track"><div class="g-bar" style="left:9%;width:55%;background:rgba(238,29,82,0.6);color:#FFCCD5;">4 video · 1 video/tuần</div><div class="g-evline" style="left:90%;"></div></div></div>
+      <div class="g-row"><div class="g-lbl">Video truyền thông<div class="g-lbl-sub">sự kiện chính thức</div></div><div class="g-track"><div class="g-bar" style="left:64%;width:26%;background:rgba(238,29,82,0.75);color:#FFCCD5;">1–2 video</div><div class="g-evline" style="left:90%;"></div></div></div>
+      <div class="g-sec-lbl">Spread Out / Nội bộ</div>
+      <div class="g-row"><div class="g-lbl">Thông báo chương trình<div class="g-lbl-sub">group Spread Out</div></div><div class="g-track"><div class="g-bar" style="left:23%;width:50%;background:rgba(29,158,117,0.7);color:#9FE1CB;">Thông báo liên tục</div><div class="g-evline" style="left:90%;"></div></div></div>
+      <div class="g-row"><div class="g-lbl">Video cựu thành viên<div class="g-lbl-sub">chia sẻ cảm nghĩ</div></div><div class="g-track"><div class="g-bar" style="left:9%;width:33%;background:rgba(29,158,117,0.7);color:#9FE1CB;">≥10 video</div><div class="g-evline" style="left:90%;"></div></div></div>
+      <div class="g-sec-lbl">Mail / Offline</div>
+      <div class="g-row"><div class="g-lbl">Gửi mail mời khách</div><div class="g-track"><div class="g-bar" style="left:24%;width:10%;background:rgba(95,94,90,0.7);color:#D3D1C7;">Mail mời</div><div class="g-evline" style="left:90%;"></div></div></div>
+      <div class="g-row"><div class="g-lbl">Thiệp mời vật lý</div><div class="g-track"><div class="g-bar" style="left:34%;width:9%;background:rgba(95,94,90,0.7);color:#D3D1C7;">Thiệp vật lý</div><div class="g-evline" style="left:90%;"></div></div></div>
+      <div class="g-row"><div class="g-lbl">Mail cảm ơn + Booth</div><div class="g-track"><div class="g-bar" style="left:91%;width:9%;background:rgba(68,68,65,0.8);color:#D3D1C7;">Cảm ơn & booth</div><div class="g-evline" style="left:90%;"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KẾT QUẢ TRUYỀN THÔNG -->
+<section style="background:var(--black);padding:5rem;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="s-label">Kết quả truyền thông</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:900;color:var(--cream);margin-bottom:2.5rem;line-height:1;">Kết quả <em style="font-style:italic;color:var(--red-bright);">3 nền tảng</em></h2>
+
+    <!-- 3 PLATFORM RESULTS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(139,26,26,0.2);margin-bottom:3rem;">
+
+      <!-- FANPAGE -->
+      <div style="background:var(--black3);padding:2rem 1.8rem;">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1.2rem;">
+          <div style="width:28px;height:28px;background:#1877F2;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:white;font-weight:700;">f</div>
+          <span style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(240,234,224,0.5);">Fanpage Facebook</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(139,26,26,0.15);margin-bottom:1.2rem;">
+          <div style="padding:0.8rem;background:var(--black2);text-align:center;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--red-bright);display:block;">9.6K</span>
+            <span style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(240,234,224,0.28);">Views · Video recap</span>
+          </div>
+          <div style="padding:0.8rem;background:var(--black2);text-align:center;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--red-bright);display:block;">6.4K</span>
+            <span style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(240,234,224,0.28);">Views · Video chính</span>
+          </div>
+          <div style="padding:0.8rem;background:var(--black2);text-align:center;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--red-bright);display:block;">110</span>
+            <span style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(240,234,224,0.28);">Likes cao nhất</span>
+          </div>
+          <div style="padding:0.8rem;background:var(--black2);text-align:center;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--red-bright);display:block;">~11K</span>
+            <span style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(240,234,224,0.28);">Tổng reach · 5 bài</span>
+          </div>
+        </div>
+        <!-- 2 ô thumbnail poster -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
+          <div class="photo-slot" id="fbThumb1" style="min-height:120px;border:1px solid rgba(139,26,26,0.2);">
+            <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'fbThumb1')"><span class="pu-icon" style="font-size:1rem;">🖼</span><span class="pu-label">Poster 1</span></div>
+          </div>
+          <div class="photo-slot" id="fbThumb2" style="min-height:120px;border:1px solid rgba(139,26,26,0.2);">
+            <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'fbThumb2')"><span class="pu-icon" style="font-size:1rem;">🖼</span><span class="pu-label">Poster 2</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIKTOK -->
+      <div style="background:var(--black3);padding:2rem 1.8rem;">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1.2rem;">
+          <div style="width:28px;height:28px;background:#EE1D52;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:white;font-weight:700;">▶</div>
+          <span style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(240,234,224,0.5);">TikTok</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(139,26,26,0.15);margin-bottom:1.2rem;">
+          <div style="padding:0.8rem;background:var(--black2);text-align:center;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--red-bright);display:block;">5+</span>
+            <span style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(240,234,224,0.28);">Video đăng tải</span>
+          </div>
+          <div style="padding:0.8rem;background:var(--black2);text-align:center;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--red-bright);display:block;">1K+</span>
+            <span style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(240,234,224,0.28);">Views / video</span>
+          </div>
+          <div style="padding:0.8rem;background:var(--black2);text-align:center;grid-column:1/-1;">
+            <span style="font-size:0.72rem;color:rgba(240,234,224,0.4);font-style:italic;">Chuỗi "Talk &amp; Share là gì với bạn?" · 1 video/tuần</span>
+          </div>
+        </div>
+        <div class="photo-slot" id="ttP1" style="min-height:120px;border:1px solid rgba(139,26,26,0.2);">
+          <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'ttP1')"><span class="pu-icon" style="font-size:1rem;">📱</span><span class="pu-label">TikTok Analytics</span></div>
+        </div>
+      </div>
+
+      <!-- SPREAD OUT -->
+      <div style="background:var(--black3);padding:2rem 1.8rem;">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1.2rem;">
+          <div style="width:28px;height:28px;background:#1D9E75;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:white;font-weight:700;">S</div>
+          <span style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(240,234,224,0.5);">Spread Out</span>
+        </div>
+        <p style="font-size:0.82rem;color:rgba(240,234,224,0.45);line-height:1.75;margin-bottom:1.2rem;" contenteditable="false">Group truyền thông nội bộ — kênh chính để thông báo chương trình, gửi thiệp mời và huy động video cảm nhận từ cựu thành viên. Các video thu thập được biên tập thành 1 video hoàn chỉnh và công chiếu trực tiếp trong đêm sự kiện.</p>
+        <div style="display:grid;grid-template-columns:1fr;gap:1px;background:rgba(139,26,16,0.15);margin-bottom:1.2rem;">
+          <div style="padding:0.8rem;background:var(--black2);">
+            <div style="display:flex;align-items:flex-start;gap:0.6rem;font-size:0.78rem;color:rgba(240,234,224,0.5);">
+              <span style="color:#1D9E75;flex-shrink:0;">▸</span><span>Thông báo chương trình &amp; gửi thiệp mời Cinema Ticket</span>
+            </div>
+          </div>
+          <div style="padding:0.8rem;background:var(--black2);">
+            <div style="display:flex;align-items:flex-start;gap:0.6rem;font-size:0.78rem;color:rgba(240,234,224,0.5);">
+              <span style="color:#1D9E75;flex-shrink:0;">▸</span><span>Thu thập video cảm nhận từ cựu thành viên → biên tập thành 1 video công chiếu tại sự kiện</span>
+            </div>
+          </div>
+          <div style="padding:0.8rem;background:var(--black2);">
+            <div style="display:flex;align-items:flex-start;gap:0.6rem;font-size:0.78rem;color:rgba(240,234,224,0.5);">
+              <span style="color:#1D9E75;flex-shrink:0;">▸</span><span>Điều phối thay frame avatar đồng loạt thành viên CLB</span>
+            </div>
+          </div>
+        </div>
+        <!-- 2 ảnh bài viết + 1 video công chiếu -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;margin-bottom:0.4rem;">
+          <div class="photo-slot" id="soP1" style="min-height:110px;border:1px solid rgba(29,158,117,0.2);">
+            <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'soP1')"><span class="pu-icon" style="font-size:1rem;">📸</span><span class="pu-label">Bài viết thông báo</span></div>
+          </div>
+          <div class="photo-slot" id="soP2" style="min-height:110px;border:1px solid rgba(29,158,117,0.2);">
+            <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'soP2')"><span class="pu-icon" style="font-size:1rem;">📸</span><span class="pu-label">Thiệp mời / Poster</span></div>
+          </div>
+        </div>
+        <div class="video-slot" id="soVid" style="min-height:130px;border:1px solid rgba(29,158,117,0.2);">
+          <div class="video-upload-ui">
+            <input type="file" accept="video/*" onchange="loadVideo(this,'soVid')">
+            <span style="font-size:1.4rem;color:rgba(240,234,224,0.18);">🎬</span>
+            <span class="pu-label">Video công chiếu tại sự kiện</span>
+            <span style="font-size:0.6rem;color:rgba(240,234,224,0.14);letter-spacing:0.12em;">Click để chọn video</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRAND PROMOTION -->
+<section style="padding:0;background:var(--black);">
+  <div class="brand-grid">
+    <div class="brand-content exp-content-pad">
+      <span class="exp-period-tag">2023 – 2025</span>
+      <h2 class="exp-h2">Brand Promotion<br>&amp; Event Support</h2>
+      <span class="brand-org">Paysan Breton Vietnam</span>
+      <p class="exp-p" contenteditable="false">Đại diện thương hiệu bơ &amp; phô mai Pháp tại các sự kiện ẩm thực quốc tế tại TP.HCM: Bastille Day, Tastin' France, Vietnam Best Sommelier Contest, HCMC FoodEx, Cocktail de Retree.</p>
+      <p class="exp-p" contenteditable="false">Trực tiếp tư vấn và marketing sản phẩm cho khách trong nước và quốc tế bằng tiếng Anh. Xây dựng chiến lược trưng bày, quản lý sampling, phối hợp logistics tại 5+ sự kiện.</p>
+      <div class="tags">
+        <span class="tag">Brand Promotion</span>
+        <span class="tag">Customer Experience</span>
+        <span class="tag">English Presentation</span>
+        <span class="tag">Sampling &amp; Display</span>
+        <span class="tag">Logistics</span>
+      </div>
+      <div class="result-box">
+        <h5>Kết quả</h5>
+        <p contenteditable="false">Thu hút hơn 500 khách mời tại các triển lãm. Xây dựng trải nghiệm thương hiệu tích cực qua tương tác và tư vấn trực tiếp với khách tham quan quốc tế.</p>
+      </div>
+    </div>
+    <div class="brand-photos-col">
+      <div class="brand-photo-top" id="bP1">
+        <div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhotoTop(this,'bP1')"><span class="pu-icon">📸</span><span class="pu-label">Ảnh chính — Sự kiện / Triển lãm</span></div>
+      </div>
+      <div class="brand-photos-row">
+        <div class="photo-slot" id="bP2"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'bP2')"><span class="pu-icon">📸</span><span class="pu-label">Ảnh 2</span></div></div>
+        <div class="photo-slot" id="bP3"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'bP3')"><span class="pu-icon">📸</span><span class="pu-label">Ảnh 3</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOOTING PROJECT -->
+<section style="padding:0;background:var(--black2);">
+  <div class="proj-shooting">
+    <div class="proj-content-box" style="background:var(--black);">
+      <span class="proj-num">03</span>
+      <span class="proj-role">Leader Project · Creative Production</span>
+      <h3 class="proj-h3">SHOOTING<br>— Bộ sưu tập</h3>
+      <p class="proj-p" contenteditable="false">Dự án sản xuất ảnh sáng tạo phục vụ truyền thông tổ chức — đảm nhận vai trò Leader toàn bộ: từ lên concept, kế hoạch, timeline, phối hợp các ban đến set-up và điều phối trong ngày shooting.</p>
+      <p class="proj-p" contenteditable="false">Kết quả là bộ ảnh chất lượng cao được sử dụng trong các chiến dịch truyền thông của tổ chức.</p>
+      <div class="tags">
+        <span class="tag">Creative Direction</span>
+        <span class="tag">Project Management</span>
+        <span class="tag">Visual Production</span>
+        <span class="tag">Team Coordination</span>
+      </div>
+    </div>
+    <div class="shooting-media">
+      <div class="video-slot" id="shootVid">
+        <div class="video-upload-ui" id="shootVidUI">
+          <input type="file" accept="video/*" onchange="loadVideo(this,'shootVid','shootVidUI')">
+          <span class="video-icon">🎬</span>
+          <span class="pu-label">Video — BTS / Hậu trường</span>
+          <span style="font-size:0.6rem;color:rgba(240,234,224,0.14);letter-spacing:0.12em;margin-top:0.2rem;">Click để chọn video</span>
+        </div>
+      </div>
+      <div class="shooting-photo-row">
+        <div class="photo-slot" id="shootP1"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'shootP1')"><span class="pu-icon">📸</span><span class="pu-label">Ảnh 1</span></div></div>
+        <div class="photo-slot" id="shootP2"><div class="photo-upload-btn"><input type="file" accept="image/*" onchange="loadPhoto(this,'shootP2')"><span class="pu-icon">📸</span><span class="pu-label">Ảnh 2</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="contact-left">
+    <div class="s-label">04 — Contact</div>
+    <h2>Hãy <em>kết nối</em><br>với mình</h2>
+    <p contenteditable="false">Mình luôn sẵn sàng trao đổi về cơ hội thực tập, hợp tác dự án — hoặc đơn giản là một cuộc trò chuyện thú vị.</p>
+  </div>
+  <div class="contact-right">
+    <a href="mailto:ngthuyduong.28705@gmail.com" class="contact-item">
+      <span class="ci-icon">✉</span>
+      <div><span class="ci-label">Email</span><span class="ci-val" contenteditable="false">ngthuyduong.28705@gmail.com</span></div>
+    </a>
+    <a href="tel:0359316487" class="contact-item">
+      <span class="ci-icon">☏</span>
+      <div><span class="ci-label">Phone</span><span class="ci-val" contenteditable="false">0359 316 487</span></div>
+    </a>
+    <a href="https://linkedin.com/in/duongnguyen287" target="_blank" class="contact-item">
+      <span class="ci-icon">in</span>
+      <div><span class="ci-label">LinkedIn</span><span class="ci-val">@duongnguyen287</span></div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-logo">THUY DUONG</span>
+  <p>© 2026 — International Trade · UFM · Ho Chi Minh City</p>
+  <p>Portfolio v3.0</p>
+</footer>
+
+<script>
+/* ── EDIT MODE ── */
+var editMode = false, editables = [];
+function toggleEdit() {
+  editMode = !editMode;
+  document.body.classList.toggle('edit-mode', editMode);
+  var icon = document.getElementById('editIcon');
+  var label = document.getElementById('editLabel');
+  if (editMode) {
+    editables = document.querySelectorAll('[contenteditable]');
+    editables.forEach(function(el) { el.contentEditable = 'true'; });
+    icon.textContent = '✅';
+    label.textContent = 'Xong, lưu lại';
+  } else {
+    editables.forEach(function(el) { el.contentEditable = 'false'; });
+    icon.textContent = '✏️';
+    label.textContent = 'Chỉnh sửa text';
+  }
+}
+
+/* ── ĐỌC FILE THÀNH BASE64 ── */
+function fileToBase64(file) {
+  return new Promise(function(resolve) {
+    var reader = new FileReader();
+    reader.onload = function(e) { resolve(e.target.result); };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ── LOAD ẢNH ── */
+function loadHeroPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  fileToBase64(input.files[0]).then(function(b64) {
+    var wrap = document.getElementById('heroPhotoWrap');
+    wrap.innerHTML = '<img src="' + b64 + '" alt="Thuy Duong" style="width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(15%);display:block;"><div class="hero-photo-overlay"></div>';
+  });
+}
+
+function loadPhotoTop(input, id) {
+  if (!input.files || !input.files[0]) return;
+  fileToBase64(input.files[0]).then(function(b64) {
+    var slot = document.getElementById(id);
+    slot.innerHTML = '<img src="' + b64 + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;">';
+    var img = slot.querySelector('img');
+    slot.onmouseenter = function() { img.style.transform = 'scale(1.04)'; };
+    slot.onmouseleave = function() { img.style.transform = 'scale(1)'; };
+  });
+}
+
+function loadPhoto(input, id) {
+  if (!input.files || !input.files[0]) return;
+  fileToBase64(input.files[0]).then(function(b64) {
+    var slot = document.getElementById(id);
+    slot.innerHTML = '<img src="' + b64 + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s;"><div class="photo-slot-overlay"></div>';
+    var img = slot.querySelector('img');
+    slot.onmouseenter = function() { img.style.transform = 'scale(1.04)'; };
+    slot.onmouseleave = function() { img.style.transform = 'scale(1)'; };
+  });
+}
+
+function loadVideo(input, slotId) {
+  if (!input.files || !input.files[0]) return;
+  fileToBase64(input.files[0]).then(function(b64) {
+    var slot = document.getElementById(slotId);
+    slot.innerHTML = '<video src="' + b64 + '" controls autoplay muted loop style="width:100%;height:100%;object-fit:cover;display:block;"></video>';
+  });
+}
+
+/* ── XUẤT FILE CÓ ẢNH ── */
+function exportFile() {
+  var label = document.getElementById('exportLabel');
+  label.textContent = 'Đang xuất...';
+
+  // Ẩn edit bar trong bản xuất
+  var bar = document.querySelector('.edit-bar');
+  var barDisplay = bar.style.display;
+  bar.style.display = 'none';
+
+  var html = '<!DOCTYPE html><html lang="vi">' + document.documentElement.innerHTML + '</html>';
+
+  bar.style.display = barDisplay;
+
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'portfolio_thuyduong_final.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  label.textContent = 'Xuất file có ảnh';
+}
+</script>
+</body>
+</html>
